@@ -3,7 +3,9 @@ from data_types import *
 from levels.test_level import *
 
 class LevelData:
+    # Compiles map data (segments, defined in data_types) from test_level file's SEGMENTS
     def __init__(self, engine):
         self.engine = engine
         #
         self.raw_segments = [Segment(p0, p1) for (p0, p1) in SEGMENTS]
+        self.settings = SETTINGS
