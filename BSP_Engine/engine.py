@@ -38,7 +38,7 @@ class Engine:
         ray.begin_mode_3d(self.camera.m_cam)
         #
         self.view_renderer.draw()
-        ray.draw_grid(20, 1.0)
+        ray.draw_grid(32, 1.0)
         #
         ray.end_mode_3d()
 
