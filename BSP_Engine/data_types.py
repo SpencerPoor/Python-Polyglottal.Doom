@@ -9,6 +9,9 @@ class Segment:
         self.pos: tuple[vec2] = vec2(p0), vec2(p1)
         # Defines the magnitude (length) of a vector (line)
         self.vector: vec2 = self.pos[1] - self.pos[0]
+        # Defines a wall model id to be assigned to the segment
+        self.wall_model_id: set[int] = set()
+
 
 
 
@@ -20,8 +23,8 @@ class BSPNode:
         # Defines a "front" and "back" child node duo defined relative to the "splitter" (splitter is the segment line that "splits" the space in half)
             # The initial root line segment splits the rendered space into two subspaces, a front and back, which relegates the segments found in the front and back into their "front" and "back" subspaces respectively
             # The action of splitting is recursively repeated on all child nodes
-                # For example, entering a child node in the back subspace, the child segment's node then splits that back subspace again into "front" and "back" subspaces as defined by its own splitter location, INSIDE of the initial back subspace, with remaining unassigned nodes put into those "front" and "back" subspaces again
-                # Repeated until every individual segment node has its own assigned spot on the Binary Space Partitioning tree
+                ## For example, entering a child node in the back subspace, the child node's segment then splits that back subspace again into another "front" and "back" set of subspaces as defined by its own splitter location, INSIDE of the initial back subspace, with remaining unassigned nodes put into that child node's "front" and "back" subspaces again
+                ## Repeated until every individual segment node has its own assigned spot on the Binary Space Partitioning tree
             # In the event a line segment is in both of a segment's "front" and "back" subspaces, that line segment gets split into two new line segments, a line segment for the front space and one for the back space
 
         # "front" contains a child segment found in the "front" space of a segment node

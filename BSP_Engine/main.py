@@ -5,7 +5,7 @@ from engine import Engine
 
 class App:
     # Initializes the program window with defined resolution from settings, provided window title
-    ray.init_window(WIN_WIDTH, WIN_HEIGHT, 'Spencers Totally Convincing Doom That Isnt Doom')
+    ray.init_window(WIN_WIDTH, WIN_HEIGHT, 'Doom? (Is it really though?)')
 
     def __init__(self):
         # Initializes the program

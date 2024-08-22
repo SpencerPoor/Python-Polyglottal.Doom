@@ -4,6 +4,7 @@ class MapRenderer:
     # Rendering component to render geometry
     def __init__(self, engine):
         self.engine = engine
+        self.camera = engine.camera
 
         # Obtains segments from level_data and stores them in raw_segments for use in MapRenderer
         raw_segments = [seg.pos for seg in self.engine.level_data.raw_segments]
@@ -19,6 +20,8 @@ class MapRenderer:
             [seg.pos for seg in self.engine.bsp_builder.segments])
         # For animation, defines a counter
         self.counter = 0.0
+        #
+        self.is_draw_map = False
 
     def draw(self):
         # Callback to execute the drawing of the line segments from raw_segments, then the traversed BSP tree segments, then the drawing of the player
@@ -27,9 +30,12 @@ class MapRenderer:
         self.draw_player()
         self.counter += 0.0005
 
-    def draw_player(self):
+    def draw_player(self, dist = 100):
         # Draws player in the space
-        x0, y0 = p0 = self.remap_vec2(self.engine.bsp_traverser.cam_pos)
+        x0, y0 = p0 = self.remap_vec2(self.engine.bsp_traverser.pos_2d)
+        x1, y1 = p0 + self.camera.forward.xz * dist
+        #
+        ray.draw_line_v((x0, y0), (x1, y1), ray.WHITE)
         ray.draw_circle_v((x0, y0), 10, ray.GREEN)
 
     def draw_segments(self, seg_color=ray.ORANGE):
@@ -37,8 +43,9 @@ class MapRenderer:
         segment_ids = self.engine.bsp_traverser.seg_ids_to_draw
 
         # Acquires position information from remapped list of segments via ID
-        # for seg_id in segment_ids:
-        for seg_id in segment_ids[:int(self.counter) % (len(segment_ids) + 1)]:
+        # for seg_id in segment_ids[:int(self.counter) % (len(segment_ids) + 1)]:
+            # ^ Above was used to demonstrate drawing order of segments for purposes of understanding BSP tree traversal, but now no longer needed
+        for seg_id in segment_ids:
             (x0, y0), (x1, y1) = p0, p1 = self.segments[seg_id]
             # Draws lines and normals to show front facing direction
             ray.draw_line_v((x0, y0), (x1, y1), seg_color)
